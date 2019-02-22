@@ -1,0 +1,2 @@
+
+-DCATKIN_DEVEL_PREFIX=/home/dhruv/ros/self_driving_car/devel -DCMAKE_INSTALL_PREFIX=/home/dhruv/ros/self_driving_car/install -G Unix Makefiles

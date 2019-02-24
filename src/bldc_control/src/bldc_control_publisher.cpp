@@ -24,17 +24,13 @@ int main(int argc, char **argv){
   );
 
   // counter for the number of messages published till date.
-  int rpm = 0;
-  int inc = 0;
-  // until the node is in agreement with the ROS master.
-  while(std::cin >> inc){
-    rpm+=inc;
+  int pulse_width = 0;
+  while(std::cin >> pulse_width){
     if(ros::ok()) {
       // initialize the message packet.
       std_msgs::UInt16 msg;
-      msg.data = rpm;
-      ROS_INFO  ("%s: %d", TAG.c_str() , rpm);
-
+      msg.data = pulse_width;
+      ROS_INFO  ("%s: %d", TAG.c_str() , pulse_width);
       publisher.publish(msg);
     }
   }

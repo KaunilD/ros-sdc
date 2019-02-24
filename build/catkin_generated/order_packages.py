@@ -2,4 +2,4 @@
 source_root_dir = "/home/dhruv/ros/self_driving_car/src"
 whitelisted_packages = "".split(';') if "" != "" else []
 blacklisted_packages = "".split(';') if "" != "" else []
-underlay_workspaces = "/opt/ros/melodic".split(';') if "/opt/ros/melodic" != "" else []
+underlay_workspaces = "/home/dhruv/ros/self_driving_car/devel;/opt/ros/melodic".split(';') if "/home/dhruv/ros/self_driving_car/devel;/opt/ros/melodic" != "" else []

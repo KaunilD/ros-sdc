@@ -7,7 +7,4 @@
 # new environment variables
 
 # modified environment variables
-export CMAKE_PREFIX_PATH="/home/dhruv/ros/self_driving_car/devel:$CMAKE_PREFIX_PATH"
 export PWD="/home/dhruv/ros/self_driving_car/build"
-export ROSLISP_PACKAGE_DIRECTORIES="/home/dhruv/ros/self_driving_car/devel/share/common-lisp"
-export ROS_PACKAGE_PATH="/home/dhruv/ros/self_driving_car/src:$ROS_PACKAGE_PATH"

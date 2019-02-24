@@ -4,38 +4,55 @@
 // polulu stuff
 #include "maestro.h"
 
+int check_target(int);
 
 #define FREQ 10
 #define QUEUE_SZ 10
-#define BLDC_CH 11
+#define BLDC_CH 0
 
-// Maestro
+#define THROTTLE_UNARMED 6000 // 1500*4
+#define THROTTLE_ARMED 6130 // 1500*4
+#define THROTTLE_MAX 8000 // 2000*4
+
 Maestro maestro;
-// callback for the
+
 void bldc_ctrl_master_reciever(const std_msgs::UInt16 &msg) {
+  int sane_target = check_target(msg.data);
   ROS_INFO_STREAM(
-    "seq: " << msg.data;
+    "target: " << msg.data << ", "
+    "checked_target: " << sane_target << std::endl;
   );
-  maestro.setTarget(BLDC_CH /* servo */, msg.data /* position in 0.25µs */);
+
+  maestro.setTarget(BLDC_CH, sane_target );
 }
 
+int check_target(int target) {
+  if( target <= THROTTLE_UNARMED ){
+    return THROTTLE_UNARMED;
+  }
+  if (target >= THROTTLE_MAX) {
+    return THROTTLE_MAX;
+  }
+  return target;
+}
+
+void init_maestro(Maestro &maestro){
+  maestro.setSpeed(BLDC_CH, 100);
+  maestro.setAcceleration(BLDC_CH, 255);
+  maestro.setTarget(BLDC_CH, 4000);
+}
 
 int main(int argc, char **argv){
-  // set maximum speed
-  maestro.setSpeed(BLDC_CH /* servo */, 100 /* speed in 0.25µs/10ms */);
-  // set maximum acceleration
-  maestro.setAcceleration(BLDC_CH /* servo */, 255 /* accel in 0.25µs/10ms/80ms */);
-  // init
-  ros::init(argc, argv, "bldc_ctrl_slave");
+  init_maestro(maestro);
 
-  // Handler for this node in the ROS ecosystem.
+  ros::init(argc, argv, "bldc_ctrl_slave");
   ros::NodeHandle nh;
 
-  // create a subscriber object.
-  // "turtle1/cmd_vel" : the topic to which the
-  // 1000: maximum number of messsges published to the topic.
   ROS_INFO_STREAM(
     "subscriber initialized"
+  );
+  ROS_INFO_STREAM(
+    "CHANNEL: " << BLDC_CH << std::endl;
   );
   ros::Subscriber subscriber = nh.subscribe("bldc_control", QUEUE_SZ, &bldc_ctrl_master_reciever);
   ros::spin();

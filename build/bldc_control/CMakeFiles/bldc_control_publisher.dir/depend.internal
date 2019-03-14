@@ -3,6 +3,8 @@
 
 bldc_control/CMakeFiles/bldc_control_publisher.dir/src/bldc_control_publisher.cpp.o
  /home/dhruv/ros/self_driving_car/src/bldc_control/src/bldc_control_publisher.cpp
+ /opt/ros/melodic/include/geometry_msgs/Twist.h
+ /opt/ros/melodic/include/geometry_msgs/Vector3.h
  /opt/ros/melodic/include/ros/advertise_options.h
  /opt/ros/melodic/include/ros/advertise_service_options.h
  /opt/ros/melodic/include/ros/assert.h

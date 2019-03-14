@@ -39,7 +39,7 @@ int check_target(int target) {
 void init_maestro(Maestro &maestro){
   maestro.setSpeed(BLDC_CH, 100);
   maestro.setAcceleration(BLDC_CH, 255);
-  maestro.setTarget(BLDC_CH, 4000);
+  maestro.setTarget(BLDC_CH, THROTTLE_UNARMED);
 }
 
 int main(int argc, char **argv){

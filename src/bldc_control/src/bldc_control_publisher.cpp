@@ -38,7 +38,21 @@ float angular_acc = 1.0;
 
 int linear_, angular_;
 
+
+int quit_handler() {
+  geometry_msgs::Twist twist;
+  twist.linear.x = 0.0;
+  twist.angular.z = 0.0;
+
+  publisher.publish(twist);
+
+  exit(0);
+
+}
+
+
 int main(int argc, char **argv){
+
   // init
   ros::init(argc, argv, "bldc_master");
   // Handler for this node in the ROS ecosystem.
@@ -90,6 +104,11 @@ int main(int argc, char **argv){
       case KEYCODE_D:
         ROS_DEBUG("DOWN");
         linear_ = -1;
+        break;
+      case KEYCODE_Q:
+        ROS_DEBUG("SIGKILL");
+        linear_ = -1;
+        quit_handler();
         break;
     }
 

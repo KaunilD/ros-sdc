@@ -1,14 +1,15 @@
 // A subscriber for  bldc_ctrl/bldc_master topic
 #include "ros/ros.h"
 #include "std_msgs/UInt16.h"
+#include "geometry_msgs/Twist.h"
 // polulu stuff
 #include "maestro.h"
 
-int check_target(int);
+int get_pwm(float);
 
 #define FREQ 10
 #define QUEUE_SZ 10
-#define BLDC_CH 0
+#define BLDC_CH 6
 
 #define THROTTLE_UNARMED 6000 // 1500*4
 #define THROTTLE_ARMED 6130 // 1500*4
@@ -16,24 +17,20 @@ int check_target(int);
 
 Maestro maestro;
 
-void bldc_ctrl_master_reciever(const std_msgs::UInt16 &msg) {
-  int sane_target = check_target(msg.data);
+// linear.x = (0, 10)
+// angular.x = (0, 10)
+void bldc_ctrl_master_reciever(const geometry_msgs::Twist &msg) {
+  int pulse_width = get_pwm(msg.linear.x);
   ROS_INFO_STREAM(
-    "target: " << msg.data << ", "
-    "checked_target: " << sane_target << std::endl;
+    "target: " << msg.linear.x*800 << ", "
+    "checked_target: " << pulse_width << std::endl;
   );
 
-  maestro.setTarget(BLDC_CH, sane_target );
+  maestro.setTarget(BLDC_CH, pulse_width );
 }
 
-int check_target(int target) {
-  if( target <= THROTTLE_UNARMED ){
-    return THROTTLE_UNARMED;
-  }
-  if (target >= THROTTLE_MAX) {
-    return THROTTLE_MAX;
-  }
-  return target;
+int get_pwm(float level) {
+  return (int)(THROTTLE_ARMED + level*200);
 }
 
 void init_maestro(Maestro &maestro){
@@ -45,7 +42,7 @@ void init_maestro(Maestro &maestro){
 int main(int argc, char **argv){
   init_maestro(maestro);
 
-  ros::init(argc, argv, "bldc_ctrl_slave");
+  ros::init(argc, argv, "bldc_motor");
   ros::NodeHandle nh;
 
   ROS_INFO_STREAM(
@@ -54,6 +51,6 @@ int main(int argc, char **argv){
   ROS_INFO_STREAM(
     "CHANNEL: " << BLDC_CH << std::endl;
   );
-  ros::Subscriber subscriber = nh.subscribe("bldc_control", QUEUE_SZ, &bldc_ctrl_master_reciever);
+  ros::Subscriber subscriber = nh.subscribe("cmd_vel", QUEUE_SZ, &bldc_ctrl_master_reciever);
   ros::spin();
 }

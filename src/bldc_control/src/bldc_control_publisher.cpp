@@ -28,7 +28,7 @@ float MIN_VEL = 0.0;
 float MAX_VEL = 10.0;
 
 float MIN_ANG = 0.0;
-float MAX_ANG = 90.0;
+float MAX_ANG = 180.0;
 
 float linear_vel = 0;
 float angular_vel = 0;
@@ -54,7 +54,7 @@ int quit_handler() {
 int main(int argc, char **argv){
 
   // init
-  ros::init(argc, argv, "bldc_master");
+  ros::init(argc, argv, "lowlevel_ctrl_pub");
   // Handler for this node in the ROS ecosystem.
   ros::NodeHandle nh;
 

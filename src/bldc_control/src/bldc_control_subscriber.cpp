@@ -10,16 +10,16 @@ int get_steer_pw(float);
 
 #define FREQ 10
 #define QUEUE_SZ 10
-#define THROTTLE_CH 6
-#define STEER_CH 0
+#define THROTTLE_CH 1
+#define STEER_CH 11
 
-#define THROTTLE_UNARMED 6000 // 1500*4
-#define THROTTLE_ARMED 6130 // 1500*4
+#define THROTTLE_UNARMED 6000 // 1560*4
+#define THROTTLE_ARMED 6280 // 1570*4
 #define THROTTLE_MAX 8000 // 2000*4
 
-#define STEER_LEFT 4000 // 1000*4
-#define STEER_NEUTRAL 6000 // 1500*4
-#define STEER_RIGHT 8000 // 2000*4
+#define STEER_LEFT 6720 // 1500*4
+#define STEER_NEUTRAL 7560 // 1500*4
+#define STEER_RIGHT 8400 // 2100*4
 
 Maestro maestro;
 
@@ -39,11 +39,11 @@ void bldc_ctrl_master_reciever(const geometry_msgs::Twist &msg) {
 }
 
 int get_throttle_pw(float level) {
-  return (int)(THROTTLE_ARMED + level*(2000/10));
+  return (int)(THROTTLE_UNARMED + level*((THROTTLE_MAX - THROTTLE_UNARMED)/10));
 }
 
 int get_steer_pw(float level) {
-  return (int)(STEER_LEFT + level*(4000/180));
+  return (int)(STEER_LEFT + level*((STEER_RIGHT - STEER_LEFT)/(10-0)));
 }
 
 void init_maestro(Maestro &maestro){

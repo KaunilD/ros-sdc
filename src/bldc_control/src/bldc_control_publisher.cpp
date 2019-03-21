@@ -28,13 +28,13 @@ float MIN_VEL = 0.0;
 float MAX_VEL = 10.0;
 
 float MIN_ANG = 0.0;
-float MAX_ANG = 180.0;
+float MAX_ANG = 10.0;
 
-float linear_vel = 0;
-float angular_vel = 0;
+float linear_vel = MIN_VEL;
+float angular_vel = MIN_ANG;
 
-float linear_acc = 0.1;
-float angular_acc = 1.0;
+float linear_acc = 0.5;
+float angular_acc = 1;
 
 int linear_, angular_;
 
@@ -42,7 +42,7 @@ int linear_, angular_;
 int quit_handler() {
   geometry_msgs::Twist twist;
   twist.linear.x = 0.0;
-  twist.angular.z = 0.0;
+  twist.angular.z = (MIN_ANG + MAX_ANG)/2;
 
   publisher.publish(twist);
 
@@ -131,7 +131,8 @@ int main(int argc, char **argv){
     twist.linear.x = linear_vel;
     twist.angular.z = angular_vel;
     std::cout << twist.linear.x << ' ' << twist.angular.z << std::endl;
-
+    linear_ = 0;
+    angular_ = 0;
     publisher.publish(twist);
 
   }

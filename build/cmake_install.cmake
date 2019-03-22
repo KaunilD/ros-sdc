@@ -122,7 +122,11 @@ endif()
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
   include("/home/dhruv/ros/self_driving_car/build/gtest/cmake_install.cmake")
+  include("/home/dhruv/ros/self_driving_car/build/pcplane/cmake_install.cmake")
   include("/home/dhruv/ros/self_driving_car/build/bldc_control/cmake_install.cmake")
+  include("/home/dhruv/ros/self_driving_car/build/realsense/ddynamic_reconfigure/cmake_install.cmake")
+  include("/home/dhruv/ros/self_driving_car/build/depth_control/cmake_install.cmake")
+  include("/home/dhruv/ros/self_driving_car/build/realsense/realsense2_camera/cmake_install.cmake")
 
 endif()
 

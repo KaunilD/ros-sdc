@@ -1,0 +1,8 @@
+prefix=/home/dhruv/ros/self_driving_car/devel
+
+Name: ddynamic_reconfigure
+Description: Description of ddynamic_reconfigure
+Version: 0.0.6
+Cflags: -I/home/dhruv/ros/self_driving_car/devel/include -I/home/dhruv/ros/self_driving_car/src/realsense/ddynamic_reconfigure/include
+Libs: -L/home/dhruv/ros/self_driving_car/devel/lib -lddynamic_reconfigure
+Requires: message_runtime std_msgs

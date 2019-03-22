@@ -1,10 +1,12 @@
 import pyrealsense2 as rs
 import numpy as np
 import sys
-import cv2
+# import cv2
+import math
 
-DRAW_GRID = False
+DRAW_GRID = True
 
+"""
 def grid(color_image, w_portion, h_portion, w_color, h_color, thickness):
     for i in range(1, 5):
         # horizontal lines
@@ -15,6 +17,8 @@ def grid(color_image, w_portion, h_portion, w_color, h_color, thickness):
 if DRAW_GRID:
     cv2.namedWindow('RealSense', cv2.WINDOW_AUTOSIZE)
 
+rad = lambda a: a*(math.pi/180.0)
+"""
 try:
     pipeline = rs.pipeline()
 
@@ -32,12 +36,11 @@ try:
     depth_sensor = profile.get_device().first_depth_sensor()
     depth_scale = depth_sensor.get_depth_scale()
 
-
     h_portion = int(640*(1.0/5.0))
     w_portion = int(480*(1.0/5.0))
 
     while True:
-        # This call waits until a new coherent set of frames is available on a device
+        # This call waits until a new coherent set of frames is available on a devicepip3 install opencv-python
         # Calls to get_frame_data(...) and get_frame_timestamp(...) on a device will return stable
         print('Getting frame data now')
         frames = pipeline.wait_for_frames()
@@ -51,19 +54,25 @@ try:
         depth_image = np.asanyarray(depth_frame.get_data())
         right_image = depth_image[ 2*w_portion:4*w_portion , 4*h_portion: ]
         right_distances = depth_scale*right_image
-        print(np.mean(right_distances[right_distances > 0]))
 
+        right_distances_filtered = right_distances[right_distances > 0]
+
+        # right_distances_projected = right_distances_filtered*math.sin(rad(42.6))
+
+        print(np.mean(right_distances_filtered))
+        """
         if DRAW_GRID:
             color_image = np.asanyarray(color_frame.get_data())
             # Apply colormap on depth image (image must be converted to 8-bit per pixel first)
             depth_colormap = cv2.applyColorMap(cv2.convertScaleAbs(depth_image, alpha=0.03), cv2.COLORMAP_JET)
             # Stack both images horizontally
-            images = np.hstack((color_image, depth_colormap))
             grid(color_image, w_portion, h_portion, 255, 255, 2)
+            images = np.hstack((color_image, depth_colormap))
             cv2.imshow('RealSense', images)
             cv2.waitKey(1)
+        """
     pipeline.stop()
-    
+
 except Exception as e:
     print('except : ', e)
     pass

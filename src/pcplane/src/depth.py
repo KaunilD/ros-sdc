@@ -6,18 +6,11 @@ import cv2
 DRAW_GRID = False
 
 def grid(color_image, w_portion, h_portion, w_color, h_color, thickness):
-    # horizontal lines
-    cv2.line(color_image, (0, w_portion), (640, w_portion), (w_color, 0, 0), thickness, 1)
-    cv2.line(color_image, (0, 2*w_portion), (640, 2*w_portion), (w_color, 0, 0), thickness, 1)
-    cv2.line(color_image, (0, 3*w_portion), (640, 3*w_portion), (w_color, 0, 0), thickness, 1)
-    cv2.line(color_image, (0, 4*w_portion), (640, 4*w_portion), (w_color, 0, 0), thickness, 1)
-
-    # vertical line
-    cv2.line(color_image, (h_portion, 0), (h_portion, 480), (0, 0, h_color), thickness, 1)
-    cv2.line(color_image, (2*h_portion, 0), (2*h_portion, 480), (0, 0, h_color), thickness, 1)
-    cv2.line(color_image, (3*h_portion, 0), (3*h_portion, 480), (0, 0, h_color), thickness, 1)
-    cv2.line(color_image, (4*h_portion, 0), (4*h_portion, 480), (0, 0, h_color), thickness, 1)
-    cv2.line(color_image, (5*h_portion, 0), (5*h_portion, 480), (0, 0, h_color), thickness, 1)
+    for i in range(1, 5):
+        # horizontal lines
+        cv2.line(color_image, (0, i*w_portion), (640, i*w_portion), (w_color, 0, 0), thickness, 1)
+        # vertical line
+        cv2.line(color_image, (i*h_portion, 0), (i*h_portion, 480), (0, 0, h_color), thickness, 1)
 
 if DRAW_GRID:
     cv2.namedWindow('RealSense', cv2.WINDOW_AUTOSIZE)
@@ -42,7 +35,6 @@ try:
 
     h_portion = int(640*(1.0/5.0))
     w_portion = int(480*(1.0/5.0))
-    print(h_portion, w_portion)
 
     while True:
         # This call waits until a new coherent set of frames is available on a device
@@ -57,25 +49,21 @@ try:
             continue
 
         depth_image = np.asanyarray(depth_frame.get_data())
-        color_image = np.asanyarray(color_frame.get_data())
-
-        # Apply colormap on depth image (image must be converted to 8-bit per pixel first)
-        depth_colormap = cv2.applyColorMap(cv2.convertScaleAbs(depth_image, alpha=0.03), cv2.COLORMAP_JET)
-
-        # Stack both images horizontally
-        images = np.hstack((color_image, depth_colormap))
-
         right_image = depth_image[ 2*w_portion:4*w_portion , 4*h_portion: ]
-
         right_distances = depth_scale*right_image
-
         print(np.mean(right_distances[right_distances > 0]))
 
         if DRAW_GRID:
+            color_image = np.asanyarray(color_frame.get_data())
+            # Apply colormap on depth image (image must be converted to 8-bit per pixel first)
+            depth_colormap = cv2.applyColorMap(cv2.convertScaleAbs(depth_image, alpha=0.03), cv2.COLORMAP_JET)
+            # Stack both images horizontally
+            images = np.hstack((color_image, depth_colormap))
             grid(color_image, w_portion, h_portion, 255, 255, 2)
             cv2.imshow('RealSense', images)
             cv2.waitKey(1)
     pipeline.stop()
+    
 except Exception as e:
     print('except : ', e)
     pass

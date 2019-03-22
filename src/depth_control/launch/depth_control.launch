@@ -1,0 +1,3 @@
+<launch>
+  <node pkg="depth_control" type="depth_controller.py" name="depth_controller" output="screen"/>
+</launch>

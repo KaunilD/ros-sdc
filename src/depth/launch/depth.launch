@@ -1,0 +1,3 @@
+<launch>
+  <node pkg="depth" type="depth_publisher.py" name="depth_publisher" output="screen"/>
+</launch>

@@ -1,0 +1,7 @@
+<launch>
+
+    <include file="$(find depth)/launch/depth.launch"/>
+    <include file="$(find depth_control)/launch/depth_control.launch"/>
+    <include file="$(find bldc_control)/launch/bldc_control.launch"/>
+    
+</launch>

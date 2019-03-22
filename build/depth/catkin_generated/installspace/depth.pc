@@ -1,0 +1,8 @@
+prefix=/home/dhruv/ros/self_driving_car/install
+
+Name: depth
+Description: Description of depth
+Version: 0.0.0
+Cflags: 
+Libs: -L/home/dhruv/ros/self_driving_car/install/lib 
+Requires: 

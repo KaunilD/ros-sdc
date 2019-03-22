@@ -9,58 +9,60 @@ import numpy as np
 import sys
 import cv2
 from std_msgs.msg import String, Float32
+from geometry_msgs.msg import Twist
 
 PUBLISHER_TOPIC = "depth_frame"
 NODE_NAME = "depth_publisher"
 
 def depth_publisher():
-	pub = rospy.Publisher(PUBLISHER_TOPIC, Float32, queue_size=10)
+	pub = rospy.Publisher(PUBLISHER_TOPIC, Twist, queue_size=10)
 	rospy.init_node(NODE_NAME, anonymous=True)
-	rate = rospy.Rate(1) #10hz
-	try:
-		pipeline = rs.pipeline()
-		profile = pipeline.get_active_profile()
-		depth_sensor = profile.get_device().first_depth_sensor()
-		depth_scale = depth_sensor.get_depth_scale()
+	rate = rospy.Rate(10) #10hz
+	pipeline = rs.pipeline()
 
-		config = rs.config()
-		config.enable_stream(rs.stream.depth, 640, 480, rs.format.z16, 30)
-		# config.enable_stream(rs.stream.color, 640, 480, rs.format.bgr8, 30)
-		# Start streaming
-		pipeline.start(config)
-		# filters
-		# hole_filling = rs.hole_filling_filter()
-		# get camera intrinsics
+	config = rs.config()
+	config.enable_stream(rs.stream.depth, 640, 480, rs.format.z16, 30)
 
-		h_portion = int(640*(1.0/5.0))
-		w_portion = int(480*(1.0/5.0))
+	# Start streaming
+	pipeline.start(config)
 
-		while not rospy.is_shutdown():
-			print('Getting frame data now')
-			frames = pipeline.wait_for_frames()
-			depth_frame = frames.get_depth_frame()
-			# color_frame = frames.get_color_frame()
+	profile = pipeline.get_active_profile()
+	depth_sensor = profile.get_device().first_depth_sensor()
+	depth_scale = depth_sensor.get_depth_scale()
 
-			# depth_frame = hole_filling.process(depth_frame)
-			if not depth_frame:
-			    continue
+	col_length = int(640*(1.0/8.0))
+	row_length = int(480*(1.0/5.0))
 
-			depth_image = np.asanyarray(depth_frame.get_data())
-			right_image = depth_image[ 2*w_portion:4*w_portion , 4*h_portion: ]
-			right_distances = depth_scale*right_image
+	while not rospy.is_shutdown():
+		print('Getting frame data now')
+		frames = pipeline.wait_for_frames()
+		depth_frame = frames.get_depth_frame()
+		if not depth_frame:
+			continue
 
-			right_distances_filtered = right_distances[right_distances > 0]
-			# right_distances_projected = right_distances_filtered*math.sin(rad(42.6))
-			mean = np.mean(right_distances_filtered)
+		depth_image = np.asanyarray(depth_frame.get_data())
 
-			pub.publish(mean)
+		left_image = depth_image[ 3*row_length:4*row_length  , 0:col_length ]
+		left_distances = depth_scale*left_image
+		left_distances_filtered = left_distances[left_distances > 0]
 
-			rate.sleep()
-		pipeline.stop()
+		center_image = depth_image[ 3*row_length: 4*row_length, 3*col_length:5*col_length]
+		center_distances = depth_scale*center_image
+		center_distances_filtered = center_distances[center_distances > 0]
 
-	except Exception as e:
-		print('except : ', e)
-		pass
+		right_image = depth_image[  3*row_length:4*row_length, 7*col_length:8*col_length ]
+		right_distances = depth_scale*right_image
+		right_distances_filtered = right_distances[right_distances > 0]
+
+		mean = Twist()
+		mean.linear.x = np.mean(left_distances_filtered)
+		mean.linear.y = np.mean(center_distances_filtered)
+		mean.linear.z = np.mean(right_distances_filtered)
+		print(mean)
+		pub.publish(mean)
+		rate.sleep()
+
+	pipeline.stop()
 
 if __name__ == '__main__':
 	try:

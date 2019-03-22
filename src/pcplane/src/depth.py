@@ -73,8 +73,8 @@ while True:
         color_image = np.asanyarray(color_frame.get_data())
         cv2.rectangle(
                 color_image,
-                (0, 2*row_length ),
-                (col_length,3*row_length ),
+                (0, 3*row_length ),
+                (col_length,4*row_length ),
                 (0, 255, 0),
                 3,
                 2
@@ -82,8 +82,8 @@ while True:
 
         cv2.rectangle(
                 color_image,
-                (3*col_length, 2*row_length ),
-                (5*col_length, 3*row_length ),
+                (3*col_length, 3*row_length ),
+                (5*col_length, 4*row_length ),
                 (0, 255, 0),
                 3,
                 2
@@ -91,8 +91,8 @@ while True:
 
         cv2.rectangle(
                 color_image,
-                (7*col_length, 2*row_length ),
-                (8*col_length, 3*row_length ),
+                (7*col_length, 3*row_length ),
+                (8*col_length, 4*row_length ),
                 (0, 255, 0),
                 3,
                 2

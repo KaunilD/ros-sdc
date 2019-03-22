@@ -17,9 +17,9 @@ int get_steer_pw(float);
 #define THROTTLE_ARMED 6280 // 1570*4
 #define THROTTLE_MAX 8000 // 2000*4
 
-#define STEER_LEFT 6720 // 1500*4
-#define STEER_NEUTRAL 7560 // 1500*4
-#define STEER_RIGHT 8400 // 2100*4
+#define STEER_LEFT 8020 // 2070*4
+#define STEER_NEUTRAL 7092 // 1780*4
+#define STEER_RIGHT 5920 // 1480*4
 
 Maestro maestro;
 
@@ -27,6 +27,7 @@ Maestro maestro;
 // angular.x = (0, 10)
 void bldc_ctrl_master_reciever(const geometry_msgs::Twist &msg) {
   int throttle_pw = get_throttle_pw(msg.linear.x);
+  //int throttle_pw = 6280;
   int steer_pw = get_steer_pw(msg.angular.z);
 
   ROS_INFO_STREAM(

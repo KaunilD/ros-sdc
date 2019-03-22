@@ -5,7 +5,7 @@ def run_ransac(
     data, max_iterations,
     ransac_threshold, ransac_consensus,
 
-    ref_vector = None, ref_threshold = 0.1,
+    ref_vector = None, ref_threshold = 0.4,
     sample_size=3, stop_at_goal=True, random_seed=None
 ):
 
@@ -15,7 +15,6 @@ def run_ransac(
     if ref_vector is not None:
         denom = np.sum(np.power(ref_vector, 2))
         ref_vector = ref_vector/(np.sqrt(denom))
-        print(ref_vector)
 
     for i in range(max_iterations):
         s = np.random.choice(data.shape[0], sample_size)

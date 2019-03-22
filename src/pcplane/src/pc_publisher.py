@@ -229,6 +229,9 @@ def clip_depth(vertices, max_depth):
     return ~(vertices@np.asarray([0, 0, -1]) > max_depth)
 
 
+def clip_height(vertices, max_depth):
+    return (vertices@np.asarray([0, -1, 0]) > max_depth)
+
 pipeline = rs.pipeline()
 config = rs.config()
 config.enable_stream(rs.stream.depth, 640, 480, rs.format.z16, 30)
@@ -239,6 +242,7 @@ profile = pipeline.get_active_profile()
 depth_profile = rs.video_stream_profile(profile.get_stream(rs.stream.depth))
 depth_intrinsics = depth_profile.get_intrinsics()
 w, h = depth_intrinsics.width, depth_intrinsics.height
+print(dir(depth_intrinsics))
 # Processing blocks
 pc = rs.pointcloud()
 colorizer = rs.colorizer()
@@ -263,8 +267,8 @@ out = np.empty((h, w, 3), dtype=np.uint8)
 
 # ransac params
 ransac_iterations = 200  # number of iterations
-ransac_threshold = 0.1  # threshold
-ransac_ratio = 0.9      # ratio of inliers required to assert
+ransac_threshold = 0.9  # threshold
+ransac_ratio = 0.7      # ratio of inliers required to assert
                         # that a model fits well to data
 inliers = None
 while True:
@@ -294,17 +298,16 @@ while True:
     texcoords = np.asanyarray(t).view(np.float32).reshape(-1, 2)  # uv
 
     # clip depth
-    #depth_mask = clip_depth(verts, -2)
-
+    # depth_mask = clip_depth(verts, -2.0)
+    # verts[depth_mask] = [0, 0, 0]
     model, inlier_count, inlier_mask = run_ransac(
             verts,
             ransac_iterations, ransac_threshold, ransac_ratio*verts.shape[0],
-            ref_vector=[0, 0, 1]
+            ref_vector=[0, 1, 0]
         )
     if inlier_mask is not None:
         inliers = inlier_mask
-
-    verts[~inliers] = [0, 0, 0]
+        verts[~inliers] = [0, 0, 0]
     # Render
     now = time.time()
     print(now-start)

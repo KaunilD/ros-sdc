@@ -121,7 +121,7 @@ public:
     int GetTrackingState();
     std::vector<MapPoint*> GetTrackedMapPoints();
     std::vector<cv::KeyPoint> GetTrackedKeyPointsUn();
-
+    void CreatePCD(const string &filename);
 private:
 
     // Input sensor

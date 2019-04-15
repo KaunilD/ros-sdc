@@ -490,4 +490,36 @@ vector<cv::KeyPoint> System::GetTrackedKeyPointsUn()
     return mTrackedKeyPointsUn;
 }
 
+void System::CreatePCD(const string &filename) {
+    cout << endl << "Saving map points to " << filename << " ..." << endl;
+    vector<MapPoint*> vMPs = mpMap->GetAllMapPoints();
+
+    std::string begin = std::string("# .PCD v.7 - Point Cloud Data file format\nVERSION .7\n");
+
+    begin += "FIELDS x y z\n";
+    begin += "SIZE 4 4 4\n";
+    begin += "TYPE F F F\n";
+    begin += "COUNT 1 1 1\n";
+    int width = vMPs.size();
+    begin += "WIDTH ";
+    begin += std::to_string(width);
+    begin += "\nHEIGHT 1\n";
+    begin += "VIEWPOINT 0 0 0 1 0 0 0\n";
+    begin += "POINTS ";
+    begin += std::to_string(width);
+    begin += "\nDATA ascii\n";
+    ofstream f;
+    f.open(filename.c_str());
+    f << begin;
+    for(size_t i=0; i<vMPs.size(); i++) {
+        MapPoint* pMP = vMPs[i];
+        if(pMP->isBad())
+            continue;
+        cv::Mat MPPositions = pMP->GetWorldPos();
+        f << setprecision(7)<< MPPositions.at<float>(0) << " " << MPPositions.at<float>(1) << " " << MPPositions.at<float>(2) << endl;
+    }
+    f.close();
+    cout << endl << "Map Points saved: " << filename <<endl;
+}
+
 } //namespace ORB_SLAM

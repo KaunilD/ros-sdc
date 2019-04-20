@@ -1,0 +1,8 @@
+prefix=/home/dhruv/ros/self_driving_car/install
+
+Name: stop_sign
+Description: Description of stop_sign
+Version: 0.0.0
+Cflags: 
+Libs: -L/home/dhruv/ros/self_driving_car/install/lib 
+Requires: 

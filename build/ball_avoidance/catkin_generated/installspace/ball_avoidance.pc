@@ -1,0 +1,8 @@
+prefix=/home/dhruv/ros/self_driving_car/install
+
+Name: ball_avoidance
+Description: Description of ball_avoidance
+Version: 0.0.0
+Cflags: 
+Libs: -L/home/dhruv/ros/self_driving_car/install/lib 
+Requires: 

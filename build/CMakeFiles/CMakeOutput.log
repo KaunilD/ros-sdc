@@ -661,3 +661,17 @@ Linking C executable cmTC_7d6b0
 make[1]: Leaving directory '/home/dhruv/ros/self_driving_car/build/CMakeFiles/CMakeTmp'
 
 
+Determining if the CXX compiler accepts the flag -Wl,--version-script,"/home/dhruv/ros/self_driving_car/build/perception_pcl-melodic-devel/pcl_ros/class_loader_hide_library_symbols__pcl_ros_io.script" passed with the following output:
+Change Dir: /home/dhruv/ros/self_driving_car/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_b311f/fast"
+/usr/bin/make -f CMakeFiles/cmTC_b311f.dir/build.make CMakeFiles/cmTC_b311f.dir/build
+make[1]: Entering directory '/home/dhruv/ros/self_driving_car/build/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_b311f.dir/DummyCXXFile.cxx.o
+/usr/bin/c++    -Wl,--version-script,"/home/dhruv/ros/self_driving_car/build/perception_pcl-melodic-devel/pcl_ros/class_loader_hide_library_symbols__pcl_ros_io.script"   -o CMakeFiles/cmTC_b311f.dir/DummyCXXFile.cxx.o -c /usr/share/cmake-3.10/Modules/DummyCXXFile.cxx
+Linking CXX executable cmTC_b311f
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_b311f.dir/link.txt --verbose=1
+/usr/bin/c++    -Wl,--version-script,"/home/dhruv/ros/self_driving_car/build/perception_pcl-melodic-devel/pcl_ros/class_loader_hide_library_symbols__pcl_ros_io.script"    -rdynamic CMakeFiles/cmTC_b311f.dir/DummyCXXFile.cxx.o  -o cmTC_b311f 
+make[1]: Leaving directory '/home/dhruv/ros/self_driving_car/build/CMakeFiles/CMakeTmp'
+
+

@@ -1,0 +1,3 @@
+<launch>
+  <node pkg="ball_avoidance" type="ball_avoidance.py" name="ball_avoidance" output="screen"/>
+</launch>

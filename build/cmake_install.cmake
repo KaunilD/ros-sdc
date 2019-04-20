@@ -73,38 +73,47 @@ endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   list(APPEND CMAKE_ABSOLUTE_DESTINATION_FILES
-   "/home/dhruv/ros/self_driving_car/install/setup.bash")
+   "/home/dhruv/ros/self_driving_car/install/setup.bash;/home/dhruv/ros/self_driving_car/install/local_setup.bash")
   if(CMAKE_WARN_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(WARNING "ABSOLUTE path INSTALL DESTINATION : ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
   if(CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(FATAL_ERROR "ABSOLUTE path INSTALL DESTINATION forbidden (by caller): ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
-file(INSTALL DESTINATION "/home/dhruv/ros/self_driving_car/install" TYPE FILE FILES "/home/dhruv/ros/self_driving_car/build/catkin_generated/installspace/setup.bash")
+file(INSTALL DESTINATION "/home/dhruv/ros/self_driving_car/install" TYPE FILE FILES
+    "/home/dhruv/ros/self_driving_car/build/catkin_generated/installspace/setup.bash"
+    "/home/dhruv/ros/self_driving_car/build/catkin_generated/installspace/local_setup.bash"
+    )
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   list(APPEND CMAKE_ABSOLUTE_DESTINATION_FILES
-   "/home/dhruv/ros/self_driving_car/install/setup.sh")
+   "/home/dhruv/ros/self_driving_car/install/setup.sh;/home/dhruv/ros/self_driving_car/install/local_setup.sh")
   if(CMAKE_WARN_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(WARNING "ABSOLUTE path INSTALL DESTINATION : ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
   if(CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(FATAL_ERROR "ABSOLUTE path INSTALL DESTINATION forbidden (by caller): ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
-file(INSTALL DESTINATION "/home/dhruv/ros/self_driving_car/install" TYPE FILE FILES "/home/dhruv/ros/self_driving_car/build/catkin_generated/installspace/setup.sh")
+file(INSTALL DESTINATION "/home/dhruv/ros/self_driving_car/install" TYPE FILE FILES
+    "/home/dhruv/ros/self_driving_car/build/catkin_generated/installspace/setup.sh"
+    "/home/dhruv/ros/self_driving_car/build/catkin_generated/installspace/local_setup.sh"
+    )
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   list(APPEND CMAKE_ABSOLUTE_DESTINATION_FILES
-   "/home/dhruv/ros/self_driving_car/install/setup.zsh")
+   "/home/dhruv/ros/self_driving_car/install/setup.zsh;/home/dhruv/ros/self_driving_car/install/local_setup.zsh")
   if(CMAKE_WARN_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(WARNING "ABSOLUTE path INSTALL DESTINATION : ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
   if(CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(FATAL_ERROR "ABSOLUTE path INSTALL DESTINATION forbidden (by caller): ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
-file(INSTALL DESTINATION "/home/dhruv/ros/self_driving_car/install" TYPE FILE FILES "/home/dhruv/ros/self_driving_car/build/catkin_generated/installspace/setup.zsh")
+file(INSTALL DESTINATION "/home/dhruv/ros/self_driving_car/install" TYPE FILE FILES
+    "/home/dhruv/ros/self_driving_car/build/catkin_generated/installspace/setup.zsh"
+    "/home/dhruv/ros/self_driving_car/build/catkin_generated/installspace/local_setup.zsh"
+    )
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
@@ -123,11 +132,16 @@ if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
   include("/home/dhruv/ros/self_driving_car/build/gtest/cmake_install.cmake")
   include("/home/dhruv/ros/self_driving_car/build/pcplane/cmake_install.cmake")
+  include("/home/dhruv/ros/self_driving_car/build/perception_pcl-melodic-devel/perception_pcl/cmake_install.cmake")
   include("/home/dhruv/ros/self_driving_car/build/sdc/cmake_install.cmake")
+  include("/home/dhruv/ros/self_driving_car/build/ball_avoidance/cmake_install.cmake")
   include("/home/dhruv/ros/self_driving_car/build/bldc_control/cmake_install.cmake")
+  include("/home/dhruv/ros/self_driving_car/build/stop_sign/cmake_install.cmake")
   include("/home/dhruv/ros/self_driving_car/build/realsense/ddynamic_reconfigure/cmake_install.cmake")
   include("/home/dhruv/ros/self_driving_car/build/depth/cmake_install.cmake")
   include("/home/dhruv/ros/self_driving_car/build/depth_control/cmake_install.cmake")
+  include("/home/dhruv/ros/self_driving_car/build/perception_pcl-melodic-devel/pcl_conversions/cmake_install.cmake")
+  include("/home/dhruv/ros/self_driving_car/build/perception_pcl-melodic-devel/pcl_ros/cmake_install.cmake")
   include("/home/dhruv/ros/self_driving_car/build/realsense/realsense2_camera/cmake_install.cmake")
 
 endif()

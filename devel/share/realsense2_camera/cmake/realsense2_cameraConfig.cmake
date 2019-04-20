@@ -121,6 +121,8 @@ foreach(library ${libraries})
   # keep build configuration keywords, target names and absolute libraries as-is
   if("${library}" MATCHES "^(debug|optimized|general)$")
     list(APPEND realsense2_camera_LIBRARIES ${library})
+  elseif(${library} MATCHES "^-l")
+    list(APPEND realsense2_camera_LIBRARIES ${library})
   elseif(TARGET ${library})
     list(APPEND realsense2_camera_LIBRARIES ${library})
   elseif(IS_ABSOLUTE ${library})
@@ -160,7 +162,7 @@ foreach(t ${realsense2_camera_EXPORTED_TARGETS})
   endif()
 endforeach()
 
-set(depends "message_runtime;roscpp;sensor_msgs;std_msgs;nodelet;cv_bridge;image_transport;ddynamic_reconfigure")
+set(depends "message_runtime;roscpp;sensor_msgs;std_msgs;nodelet;cv_bridge;image_transport;ddynamic_reconfigure;nav_msgs")
 foreach(depend ${depends})
   string(REPLACE " " ";" depend_list ${depend})
   # the package name of the dependency must be kept in a unique variable so that it is not overwritten in recursive calls

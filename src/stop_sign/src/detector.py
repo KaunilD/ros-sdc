@@ -7,13 +7,14 @@ import glob
 from matplotlib import pyplot as plt
 
 class Detector(object):
-    def __init__(self, target, image_size, win_size=16, threshold = 8e-5, step_size=2):
+    def __init__(self, target, image_size, debug=False, win_size=16, threshold = 8e-5, step_size=2):
         self.win_size = win_size
         self.target = cv2.resize(target, (win_size, win_size))
         self.threshold = threshold
         self.step_size = step_size
         self.image_size = image_size
-
+        self.debug = debug
+        
     def sliding_window(self, image, step_size, window_size):
         for y in range(0, image.shape[0], step_size):
             for x in range(0, image.shape[1], step_size):
@@ -25,7 +26,7 @@ class Detector(object):
         error = error/float(image.shape[0] * image.shape[1] * image.shape[2])
         return error
 
-    def get_ssim(self, image, debug = False):
+    def get_ssim(self, image):
         start = time.time()
 
         max_ssim = -1
@@ -47,14 +48,14 @@ class Detector(object):
                     max_img = image.copy()
                     max_bbox = [(x, y), (x + 16, y + 16)]
 
-                if debug:
+                if self.debug:
                     clone = image.copy()
                     cv2.rectangle(clone, (x, y), (x + 16, y + 16), (255, 0, 0), 2)
                     cv2.imshow("Window",clone)
                     cv2.waitKey(1)
                     time.sleep(0.025)
 
-        if debug:
+        if self.debug:
             if max_ssim < self.threshold:
                 cv2.rectangle(max_img, max_bbox[0], max_bbox[1], (0, 0, 255), 2)
             else:

@@ -67,6 +67,6 @@ if __name__ == '__main__':
     except IOError, e:
         print e
 
-    detector = Detector(cv2.imread(target), (320, 240))
+    detector = Detector(cv2.imread(target), (320, 240), debug=True)
     StopSign(detector)
     rospy.spin()
